@@ -31,6 +31,7 @@ public class LoginActivity extends Activity {
 	private Button mContinueGameButton;
 	private Button mNewGameButton;
 	private Button mAboutButton;
+	private Button mQuitButton;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class LoginActivity extends Activity {
 		mContinueGameButton = (Button)findViewById(R.id.continueGameButton);
 		mNewGameButton = (Button)findViewById(R.id.newGameButton);
 		mAboutButton = (Button)findViewById(R.id.aboutButton);
+		mQuitButton  = (Button)findViewById(R.id.QuitButton);
 		
 		View usrInfoView = findViewById(R.id.user_info);
 		mUsrName = (TextView)usrInfoView.findViewById(R.id.user_name);
@@ -84,7 +86,10 @@ public class LoginActivity extends Activity {
 
 		case R.id.aboutButton:
 			break;
-			
+		
+		case R.id.QuitButton:
+			finish();
+			break;
 		default:
 			break;
 		}

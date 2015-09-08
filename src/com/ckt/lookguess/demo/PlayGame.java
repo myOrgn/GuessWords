@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.gitonway.lee.niftymodaldialogeffects.lib.R;
 
 import android.app.Activity;
@@ -35,6 +37,7 @@ public class PlayGame extends Activity {
 	
 	private TextView game_answer_reuslt;
 	
+	private Effectstype effect;
 	//bathroom, bedroom, school, kitchen
 
 	private final int ANSWER_A = 0;
@@ -118,6 +121,7 @@ public class PlayGame extends Activity {
 		public void onClick(View view) {
 			// TODO Auto-generated method stub
 			String value = null;
+			boolean result;
 			if(R.id.play_game_answer_button_1 == view.getId()){
 				value = (String) game_answer_1_button.getText();
 			} else if(R.id.play_game_answer_button_2 == view.getId()){
@@ -132,12 +136,17 @@ public class PlayGame extends Activity {
 				game_answer_reuslt.setTextColor(Color.GREEN);
 				game_answer_reuslt.setText("Right!!!");
 				Toast.makeText(view.getContext(), "Right", Toast.LENGTH_LONG).show();
+				result = true;
 			}else {
 				game_answer_reuslt.setTextColor(Color.RED);
 				game_answer_reuslt.setText("Wrong !!!");
+				result = false;
 			}
+			
+			showResultDialog(view, result);
 		}
 	};
+	
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
@@ -173,5 +182,44 @@ public class PlayGame extends Activity {
 		// TODO Auto-generated method stub
 		super.onStop();
 	}
+	
+	
+	public void showResultDialog(View v, boolean result){
+        final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(this);
+        
+        if(result) 
+        	effect = Effectstype.Fadein;
+        else 
+        	effect = Effectstype.Shake;
+
+        dialogBuilder
+                .withTitle("Reuslt")                                  
+                .withTitleColor("#FFFFFF")                                  
+                .withDividerColor("#11000000")                              
+                .withMessage(result ? "Congratulation£¡£¡ you are right!!" : "Sorry!!! It is Wrong")                    
+                .withMessageColor(result ? "#FF00FF00" : "#FFFF0000")                              
+                .withDialogColor("#FF72CAE1")                                                           
+                .withIcon(getResources().getDrawable(R.drawable.icon))
+                .isCancelableOnTouchOutside(false)                           
+                .withDuration(700)                                          
+                .withEffect(effect)                                        
+                .withButton1Text("Continue")                                      
+                .withButton2Text("Quit")                                  
+                .setCustomView(R.layout.show_result,v.getContext())         
+                .setButton1Click(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    	dialogBuilder.dismiss();
+                    }
+                })
+                .setButton2Click(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                })
+                .show();
+
+    }
 	
 }
